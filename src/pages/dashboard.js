@@ -7,12 +7,16 @@ export default function Dashboard () {
   const router = useRouter()
 
   useEffect(() => {
+    loadProducts()
+  }, [])
+
+  const loadProducts = () => {
     products.list()
       .then(res => {
         console.log('===~res~===', res)
       })
       .catch(console.log)
-  }, [])
+  }
 
   const logout = () => {
     Cookies.remove('token')
