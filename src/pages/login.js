@@ -7,12 +7,14 @@ import Typography from '@mui/material/Typography'
 import LoadingButton from '@mui/lab/LoadingButton'
 import auth from '@/services/auth'
 import logo from '@/assets/logo.png'
+import { useSnackbar } from 'notistack'
 
 export default function Login () {
   const [username, setUsername] = useState('kminchelle')
   const [password, setPassword] = useState('0lelplR')
 
   const router = useRouter()
+  const { enqueueSnackbar } = useSnackbar()
 
   const submit = (e) => {
     e.preventDefault()
@@ -23,7 +25,7 @@ export default function Login () {
         router.push('/')
       })
       .catch(() => {
-        alert('wrong password')
+        enqueueSnackbar('Incorrect username or password!', { variant: 'error' })
       })
   }
 

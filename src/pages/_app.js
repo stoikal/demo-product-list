@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
+import { SnackbarProvider } from 'notistack'
 
 const theme = createTheme({
   palette: {
@@ -40,7 +41,9 @@ export default function App ({ Component, pageProps }) {
         <title>web-challenge-laksito</title>
       </Head>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <SnackbarProvider anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}>
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </ThemeProvider>
     </>
   )
