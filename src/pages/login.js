@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useSnackbar } from 'notistack'
 import TextField from '@mui/material/TextField'
@@ -9,7 +8,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 
-import auth from '@/services/auth'
+import { useAuth } from '@/hooks/useAuth'
 import Logo from '@/components/Logo'
 import HeaderLogin from '@/assets/header-login.png'
 import HeaderSplash from '@/assets/header-splash.png'
@@ -18,17 +17,15 @@ export default function Login () {
   const [username, setUsername] = useState('kminchelle')
   const [password, setPassword] = useState('0lelplR')
 
-  const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
+  const { login, loading } = useAuth()
 
   const submit = (e) => {
     e.preventDefault()
 
-    auth.login({ username, password })
-      .then((res) => {
-        router.push('/')
-      })
-      .catch(() => {
+    login({ username, password })
+      .catch((e) => {
+        console.log('===~e.message~===', e.message)
         enqueueSnackbar('Incorrect username or password!', { variant: 'error' })
       })
   }
@@ -115,6 +112,7 @@ export default function Login () {
                 variant="standard"
                 fullWidth
                 sx={{ mb: 3 }}
+                disabled={loading}
                 onChange={(e) => setUsername(e.target.value)}
               />
 
@@ -127,6 +125,7 @@ export default function Login () {
                 variant="standard"
                 fullWidth
                 sx={{ mb: 3 }}
+                disabled={loading}
                 onChange={(e) => setPassword(e.target.value)}
               />
 
@@ -142,6 +141,8 @@ export default function Login () {
                   variant="contained"
                   disableElevation
                   type="submit"
+                  loading={loading}
+                  sx={{ px: 4 }}
                 >
                   LOGIN
                 </LoadingButton>
@@ -150,9 +151,16 @@ export default function Login () {
           </Box>
         </Box>
 
-        <Typography textAlign="center" pb={4}>
+        <Typography
+          textAlign="center"
+          pb={4}
+          color="rgba(0, 0, 0, 0.6)"
+        >
           Don&apos;t have an account?&nbsp;
-          <Link href="/signup">
+          <Link
+            href="/signup"
+            style={{ color: '#EC4927' }}
+          >
             Sign Up
           </Link>
         </Typography>
