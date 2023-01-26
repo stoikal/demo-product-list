@@ -7,7 +7,7 @@ export default function Home () {
 export async function getServerSideProps (ctx) {
   const { cookies } = ctx.req
 
-  const targetPath = cookies.token ? '/dashboard' : '/login'
+  const targetPath = cookies.token ? '/products' : '/login'
 
   return {
     redirect: {

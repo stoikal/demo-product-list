@@ -23,9 +23,13 @@ export default function Login () {
   const submit = (e) => {
     e.preventDefault()
 
+    if (!username || !password) {
+      enqueueSnackbar('Username atau password Anda belum diisi.', { variant: 'error' })
+      return
+    }
+
     login({ username, password })
       .catch((e) => {
-        console.log('===~e.message~===', e.message)
         enqueueSnackbar('Incorrect username or password!', { variant: 'error' })
       })
   }
@@ -142,6 +146,7 @@ export default function Login () {
                   disableElevation
                   type="submit"
                   loading={loading}
+                  disabled={!username || !password}
                   sx={{ px: 4 }}
                 >
                   LOGIN
