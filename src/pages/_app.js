@@ -41,7 +41,7 @@ export default function App ({ Component, pageProps }) {
         <title>web-challenge-laksito</title>
       </Head>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}>
+        <SnackbarProvider anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
           <Component {...pageProps} />
         </SnackbarProvider>
       </ThemeProvider>
