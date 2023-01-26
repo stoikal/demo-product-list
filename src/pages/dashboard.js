@@ -1,55 +1,39 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSnackbar } from 'notistack'
 import Typography from '@mui/material/Typography'
-import productsService from '@/services/products'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+
 import ProductTable from '@/components/ProductTable'
 import AuthService from '@/services/auth'
+import { useProducts } from '@/hooks/useProducts'
+import { useProductCategories } from '@/hooks/useProductCategories'
 
 export default function Dashboard () {
-  const [products, setProducts] = useState([])
-  const [pagination, setPagination] = useState({
-    limit: 10,
-    skip: 0,
-    totalCount: 0
-  })
-  const [loading, setLoading] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('')
 
   const router = useRouter()
-  const { enqueueSnackbar } = useSnackbar()
 
-  useEffect(() => {
-    const { limit, skip } = pagination
-    loadProducts({ limit, skip })
-  }, [])
-
-  const loadProducts = (query) => {
-    setLoading(true)
-    productsService.list(query)
-      .then(res => {
-        setProducts(res.data.products)
-        setPagination(
-          {
-            limit: res.data.limit,
-            skip: res.data.skip,
-            totalCount: res.data.total
-          }
-        )
-      })
-      .catch(() => {
-        enqueueSnackbar(
-          'Failed to load products!',
-          { variant: 'error' }
-        )
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
+  const Products = useProducts()
+  const Categories = useProductCategories()
 
   const handlePaginationChange = (pagination) => {
     const { limit, skip } = pagination
-    loadProducts({ limit, skip })
+    Products.reload({ limit, skip, category: selectedCategory })
+  }
+
+  const handleCategoryChange = (e) => {
+    const { limit } = Products.pagination
+
+    setSelectedCategory(e.target.value)
+
+    Products.reload({
+      limit,
+      skip: 0,
+      category: e.target.value
+    })
   }
 
   const logout = () => {
@@ -63,11 +47,38 @@ export default function Dashboard () {
       <Typography variant="h5" component="h1">
         Product List
       </Typography>
+
+      <FormControl
+        variant="standard"
+        sx={{ m: 1, minWidth: 120 }}
+        disabled={Categories.loading}
+      >
+        <InputLabel>Category</InputLabel>
+        <Select
+          value={selectedCategory}
+          label="Category"
+          onChange={handleCategoryChange}
+        >
+          <MenuItem value="">
+            <em>all</em>
+          </MenuItem>
+          {Categories.data.map((category, index) => (
+
+            <MenuItem
+              key={index}
+              value={category}
+            >
+              {category}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <ProductTable
-        items={products}
-        pagination={pagination}
+        items={Products.data}
+        pagination={Products.pagination}
         onPaginationChange={handlePaginationChange}
-        loading={loading}
+        loading={Products.loading}
       />
     </div>
   )
