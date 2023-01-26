@@ -19,8 +19,14 @@ export function useAuth () {
     }
   }
 
+  const logout = () => {
+    Cookies.remove('token')
+    router.push('/')
+  }
+
   return {
     login,
+    logout,
     loading
   }
 }

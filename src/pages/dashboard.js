@@ -1,20 +1,17 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
+import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 
+import NavBar from '@/components/NavBar'
 import ProductTable from '@/components/ProductTable'
-import AuthService from '@/services/auth'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductCategories } from '@/hooks/useProductCategories'
 
 export default function Dashboard () {
   const [selectedCategory, setSelectedCategory] = useState('')
-
-  const router = useRouter()
 
   const Products = useProducts()
   const Categories = useProductCategories()
@@ -36,51 +33,46 @@ export default function Dashboard () {
     })
   }
 
-  const logout = () => {
-    AuthService.logout()
-    router.push('/')
-  }
-
   return (
-    <div>
-      <button onClick={logout}>logout</button>
-      <Typography variant="h5" component="h1">
-        Product List
-      </Typography>
+    <>
+      <NavBar />
 
-      <FormControl
-        variant="standard"
-        sx={{ m: 1, minWidth: 120 }}
-        disabled={Categories.loading}
-      >
-        <InputLabel>Category</InputLabel>
-        <Select
-          value={selectedCategory}
-          label="Category"
-          onChange={handleCategoryChange}
-        >
-          <MenuItem value="">
-            <em>none</em>
-          </MenuItem>
-          {Categories.data.map((category, index) => (
+      <Container sx={{ p: 3 }}>
+        <Typography variant="h5" component="h1" mb={2}>
+          Product List
+        </Typography>
 
-            <MenuItem
-              key={index}
-              value={category}
-            >
-              {category}
+        <Box mb={3}>
+          <TextField
+            select
+            variant="standard"
+            label="Category"
+            sx={{ minWidth: 120 }}
+            onChange={handleCategoryChange}
+          >
+            <MenuItem value="">
+              <em>none</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            {Categories.data.map((category, index) => (
 
-      <ProductTable
-        items={Products.data}
-        pagination={Products.pagination}
-        onPaginationChange={handlePaginationChange}
-        loading={Products.loading}
-      />
-    </div>
+              <MenuItem
+                key={index}
+                value={category}
+              >
+                {category}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
+
+        <ProductTable
+          items={Products.data}
+          pagination={Products.pagination}
+          onPaginationChange={handlePaginationChange}
+          loading={Products.loading}
+        />
+      </Container>
+    </>
   )
 }
 

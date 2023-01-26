@@ -7,6 +7,7 @@ import TableFooter from '@mui/material/TableFooter'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
 import LinearProgress from '@mui/material/LinearProgress'
 
 export default function ProductTable ({ items, pagination, onPaginationChange, loading }) {
@@ -31,7 +32,7 @@ export default function ProductTable ({ items, pagination, onPaginationChange, l
   })()
 
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
