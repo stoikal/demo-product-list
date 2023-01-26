@@ -50,6 +50,6 @@ export default function App ({ Component, pageProps }) {
 }
 
 App.propTypes = {
-  Component: PropTypes.element,
+  Component: PropTypes.any,
   pageProps: PropTypes.object
 }

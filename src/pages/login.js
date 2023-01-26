@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import Cookies from 'js-cookie'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import LoadingButton from '@mui/lab/LoadingButton'
@@ -21,7 +20,6 @@ export default function Login () {
 
     auth.login({ username, password })
       .then((res) => {
-        Cookies.set('token', res.data.token)
         router.push('/')
       })
       .catch(() => {

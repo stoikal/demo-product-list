@@ -1,7 +1,7 @@
 import client from './_client'
 
 export default {
-  list () {
-    return client.get('/products')
+  list (params) {
+    return client.get('/products', { params })
   }
 }
