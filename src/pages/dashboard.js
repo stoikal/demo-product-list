@@ -60,7 +60,7 @@ export default function Dashboard () {
           onChange={handleCategoryChange}
         >
           <MenuItem value="">
-            <em>all</em>
+            <em>none</em>
           </MenuItem>
           {Categories.data.map((category, index) => (
 
