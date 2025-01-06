@@ -38,7 +38,7 @@ export default function App ({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>web-challenge-laksito</title>
+        <title>demo-product-list-next</title>
       </Head>
       <ThemeProvider theme={theme}>
         <SnackbarProvider anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
