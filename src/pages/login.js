@@ -14,8 +14,8 @@ import HeaderLogin from '@/assets/header-login.png'
 import HeaderSplash from '@/assets/header-splash.png'
 
 export default function Login () {
-  const [username, setUsername] = useState('kminchelle')
-  const [password, setPassword] = useState('0lelplR')
+  const [username, setUsername] = useState('emilys')
+  const [password, setPassword] = useState('emilyspass')
 
   const { enqueueSnackbar } = useSnackbar()
   const { login, loading } = useAuth()

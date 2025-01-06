@@ -51,15 +51,15 @@ export default function Dashboard () {
             onChange={handleCategoryChange}
           >
             <MenuItem value="">
-              <em>none</em>
+              <em>All</em>
             </MenuItem>
             {Categories.data.map((category, index) => (
 
               <MenuItem
                 key={index}
-                value={category}
+                value={category.value}
               >
-                {category}
+                {category.name}
               </MenuItem>
             ))}
           </TextField>
